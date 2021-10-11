@@ -24,9 +24,9 @@ async def root():
 async def obtenerDatos():
     try:
         datos = []
-        conexion = sqlite3.connect("DatosFlotas.db")
+        conexion = sqlite3.connect("BagriFlotas.db")
         cursor = conexion.cursor()
-        cursor.execute("SELECT ID, Numero, Nombre FROM Flotas")
+        cursor.execute("SELECT ID, Numero, Nombre FROM RegistroFlotas")
         contenido = cursor.fetchall()
         conexion.commit()
         for i in contenido:
