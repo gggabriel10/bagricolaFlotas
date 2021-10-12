@@ -20,7 +20,7 @@ class config:
 async def root():
     return{'Sistema': 'Bagricola Flotas'}
 
-@app.get("/api/ObtenerDatos")
+@app.get("/api/ObtenerFlotas")
 async def obtenerDatos():
     try:
         datos = []
@@ -34,3 +34,15 @@ async def obtenerDatos():
         return datos
     except TypeError:
         return "ERROR AL CONECTAR CON LA BASE DE DATOS"  
+
+@app.get("/api/Profile/{Id}")
+async def profile(Id: str):
+    datos = []
+    conexion = sqlite3.connect("BagriFlotas.db")
+    cursor = conexion.cursor()
+    cursor.execute("SELECT ID, Numero, Nombre FROM RegistroFlotas WHERE ID = '"+Id+"'")
+    contenido = cursor.fetchall()
+    conexion.commit()
+    for i in contenido:
+        datos.append({"Id":i[0],"Numero":i[1],"Nombre":i[2]})
+    return datos
