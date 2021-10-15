@@ -26,7 +26,7 @@ async def obtenerDatos():
         datos = []
         conexion = sqlite3.connect("BagriFlotas.db")
         cursor = conexion.cursor()
-        cursor.execute("SELECT ID, Numero, Nombre FROM RegistroFlotas")
+        cursor.execute("SELECT ID, Numero, Nombre FROM RegistroFlotas ORDER BY Nombre")
         contenido = cursor.fetchall()
         conexion.commit()
         for i in contenido:
