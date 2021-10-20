@@ -35,7 +35,7 @@ async def obtenerDatos():
     except TypeError:
         return "ERROR AL CONECTAR CON LA BASE DE DATOS"  
 
-@app.get("/api/Profile/{Id}")
+'''@app.get("/api/Profile/{Id}")
 async def profile(Id: str):
     datos = []
     conexion = sqlite3.connect("BagriFlotas.db")
@@ -45,4 +45,29 @@ async def profile(Id: str):
     conexion.commit()
     for i in contenido:
         datos.append({"Id":i[0],"Numero":i[1],"Nombre":i[2]})
-    return datos
+    return datos'''
+
+@app.get("/api/signin/{correo}/{clave}")
+def iniciar(correo: str,clave:str):
+    try:
+        passw = ""
+        user = ""
+        nombre = ""
+        id = ""
+        conexion = sqlite3.connect("BagriFlotas.db")
+        cursor = conexion.cursor()
+        cursor.execute(
+            "SELECT ID, Nombre, Correo, Clave from IniciarSesion where Correo ='"+correo+"' and Clave = '"+clave+"'")
+        contenido = cursor.fetchall()
+        conexion.commit()
+        for i in contenido:
+            id = i[0]
+            nombre = i[1]
+            user = i[2]
+            passw = i[3]
+        if correo == user and clave==passw:
+            return {"Usuario": nombre}
+        else:
+            return {"Response": False}
+    except TypeError:
+        return "Error al extraer los datos"
