@@ -76,3 +76,19 @@ def TotalFlotas():
         return datos
     except TypeError:
         return "Error al conectar a la base de datos"
+
+@app.get("/api/FlotasDisponibles")
+def FlotasDisponibles():
+    try:
+        texto = "DISPONIBLE"
+        datos = ""
+        conexion = sqlite3.connect("BagriFlotas.db")
+        cursor = conexion.cursor()
+        cursor.execute("SELECT count(Nombre) as Cantidad FROM RegistroFlotas WHERE Nombre='"+texto+"'")
+        contenido = cursor.fetchall()
+        conexion.commit()
+        for i in contenido:
+            datos = i[0]
+        return datos
+    except TypeError:
+        return "Error al conectar a la base de datos"
