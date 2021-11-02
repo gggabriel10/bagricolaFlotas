@@ -17,9 +17,6 @@ app.add_middleware(
 class config:
     orm_mode = True
 
-if __name__ == '__main__':
-    uvicorn.run(app, host="127.0.0.1", port=5000)
-
 @app.get("/")
 async def root():
     return{'Sistema': 'Bagricola Flotas'}
@@ -39,22 +36,7 @@ async def obtenerFlotas():
     except TypeError:
         return "ERROR AL CONECTAR CON LA BASE DE DATOS"  
 
-@app.get("/api/ObtenerUsuario/{codigo}")
-def obtenerFlotas(codigo: str):
-    try:
-        datos = []
-        conexion = sqlite3.connect("BagriFlotas.db")
-        cursor = conexion.cursor()
-        cursor.execute("SELECT ID, Nombre, Correo FROM IniciarSesion WHERE ID = '"+codigo+"'")
-        contenido = cursor.fetchall()
-        conexion.commit()
-        for i in contenido:
-            datos.append({"Id":i[0],"Nombre":i[1], "Correo":i[2]})
-        return datos
-    except TypeError:
-        return "ERROR AL CONECTAR CON LA BASE DE DATOS"  
-
-@app.get("/api/signin/{correo}/{clave}")
+@app.get("/api/IniciarSesion/{correo}/{clave}")
 def iniciar(correo: str,clave:str):
     try:
         passw = ""
@@ -78,3 +60,19 @@ def iniciar(correo: str,clave:str):
             return {"Response": False}
     except TypeError:
         return "Error al extraer los datos"
+
+
+@app.get("/api/TotalFlotas")
+def TotalFlotas():
+    try:
+        datos=""
+        conexion = sqlite3.connect("BagriFlotas.db")
+        cursor = conexion.cursor()
+        cursor.execute("SELECT count(ID) as Cantidad FROM RegistroFlotas")
+        contenido = cursor.fetchall()
+        conexion.commit()
+        for i in contenido:
+            datos = i[0]
+        return datos
+    except TypeError:
+        return "Error al conectar a la base de datos"
