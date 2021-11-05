@@ -92,3 +92,19 @@ def FlotasDisponibles():
         return datos
     except TypeError:
         return "Error al conectar a la base de datos"
+
+@app.delete("/api/EliminarFlota/{codigo}")
+def EliminarFlota(codigo: str):
+    conexion = sqlite3.connect("BagriFlotas.db")
+    cursor = conexion.cursor()
+    cursor.execute("DELETE FROM RegistroFlotas WHERE ID = '"+codigo+"'")
+    conexion.commit()
+    return  {"Ok":True}
+
+@app.put("/api/ActualizarFlota/{id}/{numero}/{nombre}")
+def ActualizarFlota(id: str, numero:str, nombre:str):
+    conexion = sqlite3.connect("BagriFlotas.db")
+    cursor = conexion.cursor()
+    cursor.execute("UPDATE RegistroFlotas SET Numero='"+numero+"',Nombre='"+nombre+"' WHERE ID = '"+id+"'")
+    conexion.commit()
+    return  {"Ok":True}
