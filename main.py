@@ -124,7 +124,7 @@ def EliminarFlota(codigo: str):
     cursor = conexion.cursor()
     cursor.execute("DELETE FROM RegistroFlotas WHERE ID = '"+codigo+"'")
     conexion.commit()
-    return  {"Ok":codigo}
+    return  {"Ok":True}
 
 # ACTUALIZAR FLOTAS
 @app.put("/api/ActualizarFlota/{id}/{numero}/{nombre}")
