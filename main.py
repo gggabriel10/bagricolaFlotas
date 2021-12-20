@@ -122,8 +122,9 @@ def RegistroFlota(numero: str, nombre: str):
 def EliminarFlota(codigo: str):
     conexion = sqlite3.connect("BagriFlotas.db")
     cursor = conexion.cursor()
-    cursor.execute("DELETE FROM RegistroFlotas WHERE ID = '"+codigo+"'")
     conexion.commit()
+    cursor.execute("DELETE FROM RegistroFlotas WHERE ID = '"+codigo+"'")
+    #conexion.commit()
     return  {"Ok":codigo}
 
 # ACTUALIZAR FLOTAS
