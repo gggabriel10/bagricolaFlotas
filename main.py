@@ -47,7 +47,7 @@ def iniciar(correo: str,clave:str):
         conexion = sqlite3.connect("BagriFlotas.db")
         cursor = conexion.cursor()
         cursor.execute(
-            "SELECT ID, Nombre, Correo, Clave from IniciarSesion where Correo ='"+correo+"' and Clave = '"+clave+"'")
+            "SELECT ID, Nombre, Usuario, Clave from IniciarSesion where Usuario ='"+correo+"' and Clave = '"+clave+"'")
         contenido = cursor.fetchall()
         conexion.commit()
         for i in contenido:
@@ -122,9 +122,8 @@ def RegistroFlota(numero: str, nombre: str):
 def EliminarFlota(codigo: str):
     conexion = sqlite3.connect("BagriFlotas.db")
     cursor = conexion.cursor()
-    conexion.commit()
     cursor.execute("DELETE FROM RegistroFlotas WHERE ID = '"+codigo+"'")
-    #conexion.commit()
+    conexion.commit()
     return  {"Ok":codigo}
 
 # ACTUALIZAR FLOTAS
