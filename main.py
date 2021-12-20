@@ -124,6 +124,8 @@ def EliminarFlota(numero: str):
     cursor = conexion.cursor()
     cursor.execute("DELETE FROM RegistroFlotas WHERE Numero = '"+numero+"'")
     conexion.commit()
+    cursor.close()
+    conexion.close()
     return  {"Ok":numero}
 
 # ACTUALIZAR FLOTAS
