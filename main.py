@@ -118,13 +118,13 @@ def RegistroFlota(numero: str, nombre: str):
         return "ERROR AL CONECTAR CON LA BASE DE DATOS"
 
 # ELIMINAR FLOTAS
-@app.delete("/api/EliminarFlota/{codigo}")
-def EliminarFlota(codigo: str):
+@app.delete("/api/EliminarFlota/{numero}")
+def EliminarFlota(numero: str):
     conexion = sqlite3.connect("BagriFlotas.db")
     cursor = conexion.cursor()
-    cursor.execute("DELETE FROM RegistroFlotas WHERE ID = '"+codigo+"'")
+    cursor.execute("DELETE FROM RegistroFlotas WHERE Numero = '"+numero+"'")
     conexion.commit()
-    return  {"Ok":codigo}
+    return  {"Ok":numero}
 
 # ACTUALIZAR FLOTAS
 @app.put("/api/ActualizarFlota/{id}/{numero}/{nombre}")
