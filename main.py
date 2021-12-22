@@ -82,11 +82,11 @@ def TotalFlotas():
 @app.get("/api/FlotasDisponibles")
 def FlotasDisponibles():
     try:
-        texto = "DISPONIBLE"
+        texto = "Disponible"
         datos = ""
         conexion = sqlite3.connect("BagriFlotas.db")
         cursor = conexion.cursor()
-        cursor.execute("SELECT count(Nombre) as Cantidad FROM RegistroFlotas WHERE Nombre='"+texto+"'")
+        cursor.execute("SELECT count(Nombre) as Cantidad FROM RegistroFlotas WHERE Nombre LIKE'%"+texto+"%'")
         contenido = cursor.fetchall()
         conexion.commit()
         for i in contenido:
