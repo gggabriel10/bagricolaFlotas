@@ -37,8 +37,8 @@ def obtenerFlotas():
         return "ERROR AL CONECTAR CON LA BASE DE DATOS"  
 
 # INICIO DE SESION
-@app.get("/api/IniciarSesion/{correo}/{clave}")
-def iniciar(correo: str,clave:str):
+@app.get("/api/IniciarSesion/{usuario}/{clave}")
+def iniciar(usuario: str,clave:str):
     try:
         passw = ""
         user = ""
@@ -47,7 +47,7 @@ def iniciar(correo: str,clave:str):
         conexion = sqlite3.connect("BagriFlotas.db")
         cursor = conexion.cursor()
         cursor.execute(
-            "SELECT ID, Nombre, Usuario, Clave from IniciarSesion where Usuario ='"+correo+"' and Clave = '"+clave+"'")
+            "SELECT ID, Nombre, Usuario, Clave from IniciarSesion where Usuario ='"+usuario+"' and Clave = '"+clave+"'")
         contenido = cursor.fetchall()
         conexion.commit()
         for i in contenido:
@@ -55,7 +55,7 @@ def iniciar(correo: str,clave:str):
             nombre = i[1]
             user = i[2]
             passw = i[3]
-        if correo == user and clave==passw:
+        if usuario == user and clave==passw:
             return {"Usuario": nombre}
         else:
             return {"Response": False}
@@ -117,16 +117,6 @@ def RegistroFlota(numero: str, nombre: str):
     except TypeError:
         return "ERROR AL CONECTAR CON LA BASE DE DATOS"
 
-# ELIMINAR FLOTAS
-@app.delete("/api/EliminarFlota/{numero}")
-def EliminarFlota(numero: str):
-    conexion = sqlite3.connect("BagriFlotas.db")
-    cursor = conexion.cursor()
-    cursor.execute("DELETE FROM RegistroFlotas WHERE Numero = '"+numero+"'")
-    conexion.commit()
-    cursor.close()
-    conexion.close()
-    return  {"Ok":numero}
 
 # ACTUALIZAR FLOTAS
 @app.put("/api/ActualizarFlota/{id}/{numero}/{nombre}")
@@ -134,5 +124,14 @@ def ActualizarFlota(id: str, numero:str, nombre:str):
     conexion = sqlite3.connect("BagriFlotas.db")
     cursor = conexion.cursor()
     cursor.execute("UPDATE RegistroFlotas SET Numero='"+numero+"',Nombre='"+nombre+"' WHERE ID = '"+id+"'")
+    conexion.commit()
+    return  {"Ok":True}
+
+# ELIMINAR FLOTAS
+@app.delete("/api/EliminarFlota/{numero}")
+def EliminarFlota(numero: str):
+    conexion = sqlite3.connect("BagriFlotas.db")
+    cursor = conexion.cursor()
+    cursor.execute("DELETE FROM RegistroFlotas WHERE Numero = '"+numero+"'")
     conexion.commit()
     return  {"Ok":True}
